@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "desc": "显示obj1",
+    "rootName": "Root",
+    "relativePath": "Node1/obj1",
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "desc": "显示obj2",
+    "rootName": "Root",
+    "relativePath": "Node2/obj2",
+    "isActive": true
+  }
+]

@@ -1,0 +1,9 @@
+MissFrame/.vs/
+MissFrame/Library/
+MissFrame/Logs/
+MissFrame/UserSettings/
+MissFrame/obj/
+MissFrame/.vsconfig
+MissFrame/Assembly-CSharp.csproj
+MissFrame/Assembly-CSharp-firstpass.csproj
+MissFrame/MissFrame.sln

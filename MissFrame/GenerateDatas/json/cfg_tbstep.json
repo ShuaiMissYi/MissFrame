@@ -1,0 +1,45 @@
+[
+  {
+    "stepId": 1,
+    "desc": "描述1",
+    "effectId": 1001,
+    "childStepIdList": [
+      101,
+      102
+    ],
+    "StepType": 1
+  },
+  {
+    "stepId": 2,
+    "desc": "描述2",
+    "effectId": 1002,
+    "childStepIdList": [
+      201,
+      202,
+      203
+    ],
+    "StepType": 1
+  },
+  {
+    "stepId": 3,
+    "desc": "描述3",
+    "effectId": 1003,
+    "childStepIdList": [
+      301,
+      302,
+      303
+    ],
+    "StepType": 2
+  },
+  {
+    "stepId": 4,
+    "desc": "描述4",
+    "effectId": 1004,
+    "childStepIdList": [
+      401,
+      402,
+      403
+    ],
+    "StepType": 2
+  }
+]

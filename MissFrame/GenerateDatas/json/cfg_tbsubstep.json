@@ -1,0 +1,30 @@
+[
+  {
+    "id": 101,
+    "desc": "显示对象1",
+    "prepositionStepIdList": [],
+    "nextStepIdList": [
+      102
+    ],
+    "triggerType": 1,
+    "triggerId": 1
+  },
+  {
+    "id": 102,
+    "desc": "播放特效路径",
+    "prepositionStepIdList": [
+      101
+    ],
+    "nextStepIdList": [],
+    "triggerType": 2,
+    "triggerId": 1
+  },
+  {
+    "id": 103,
+    "desc": "显示对象2",
+    "prepositionStepIdList": [],
+    "nextStepIdList": [],
+    "triggerType": 1,
+    "triggerId": 2
+  }
+]
