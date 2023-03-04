@@ -25,16 +25,26 @@ public class Game : MonoBehaviour
         ActiveController.GetInstance().Init();
         //特效路径
         EffectPathController.GetInstance().Init();
+        //初始化配置表数据
+        CfgManager.GetInstance().Init();
     }
 
     public void ExecuteStep(int stepId)
     {
+        StepController.GetInstance().IsAutoExcuteStep = false;
         StepController.GetInstance().StartStep(stepId);
     }
 
     public void ResetStep()
     {
         StepController.GetInstance().ResetStep();
+    }
+
+    //自动执行步骤
+    public void AutoExecuteStep(int stepId=0)
+    {
+        StepController.GetInstance().IsAutoExcuteStep = true;
+        StepController.GetInstance().AutoExecuteStep(stepId);
     }
 
 

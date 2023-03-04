@@ -9,27 +9,48 @@ using UnityEngine;
 public class CfgManager : Singleton<CfgManager>
 {
 
-    public CfgManager()
+
+    //步骤-配置数据
+    private Dictionary<int,StepData> DicStepData = new Dictionary<int, StepData>();
+    //子步骤-配置数据
+    private Dictionary<int, SubStepData> DicSubStepData = new Dictionary<int, SubStepData>();
+    //显隐-配置数据
+    private Dictionary<int, ActiveData> DicActiveData = new Dictionary<int, ActiveData>();
+    //特效轨迹-配置数据
+    private Dictionary<int, EffectData> DicEffectShowPathData = new Dictionary<int, EffectData>();
+
+    /// <summary>
+    /// 总步骤数
+    /// </summary>
+    public int AllStepNum => DicStepData.Count;
+
+
+    public override void Init()
     {
         InitAllCfgData();
     }
-
-    private Dictionary<int,StepData> DicStepData = new Dictionary<int, StepData>();
-    private Dictionary<int, SubStepData> DicSubStepData = new Dictionary<int, SubStepData>();
-    private Dictionary<int, ActiveData> DicActiveData = new Dictionary<int, ActiveData>();
-    private Dictionary<int, EffectData> DicEffectShowPathData = new Dictionary<int, EffectData>();
-
-
 
     #region 初始化配置的数据类
     private void InitAllCfgData()
     {
         Debug.Log("初始化  InitAllCfgData");
-        InitStepCfg();
         InitSubStepCfg();
+        InitStepCfg();
         InitActiveCfg();
         InitEffectShowPathCfg();
+        InitCfgOther();
     }
+
+    //初始化配置相关
+    private void InitCfgOther()
+    {
+        //建立步骤-子步骤之间的关联
+        foreach (var item in DicStepData.Values)
+        {
+            item.InitSubStepDataRelevance();
+        }
+    }
+
     //初始化《步骤》流程配置数据
     private void InitStepCfg()
     {
@@ -145,6 +166,7 @@ public class CfgManager : Singleton<CfgManager>
         }
         return data;
     }
+
     #endregion
 
 

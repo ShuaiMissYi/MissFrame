@@ -18,8 +18,9 @@ public class EffectPathController : SingletonMono<EffectPathController>
 
     private List<Tween> tweenList = new List<Tween>();
 
-    public EffectPathController()
+    public override void Init()
     {
+        base.Init();
         AddListener();
     }
 
@@ -43,7 +44,7 @@ public class EffectPathController : SingletonMono<EffectPathController>
     private void CreatEffect()
     {
         int index = 0;
-        Debug.LogFormat("开始使用entity");
+        Debug.LogFormat("开始生成entity");
         for (int i = 0; i < m_CreatEffectNum; i++)
         {
             ObjectPoolManager.GetInstance().GetObjectFormPoolAsyncByResId(m_EffectData.CfgShowEffectPathData.EffectResID, (entity) =>
@@ -66,12 +67,12 @@ public class EffectPathController : SingletonMono<EffectPathController>
     {
         yield return new WaitForSeconds(m_EffectData.CfgShowEffectPathData.Duration);
         //Debug.LogError("抵达终点");
-        OnEndExcuteStep();
+        EventDispatcher.GetInstance().DispatchEvent(EventType.FinishSubStep, m_EffectData.SubStep);
     }
 
     private IEnumerator IE_EffectFly()
     {
-        Debug.LogFormat("开始协程");
+        Debug.LogFormat("开始协程---特效轨迹");
         for (int i = 0; i < m_CreatEffectNum; i++)
         {
             TargetFly(PoolEntityList[i],i);
@@ -133,8 +134,6 @@ public class EffectPathController : SingletonMono<EffectPathController>
         StopIE_EffectFly();
         //停止-步骤结束协程
         StopIE_DelayOnEnd();
-        //重置-结束时的步骤结果  todo
-        ResetEndStep();
         //停止tween
         ClearTween();
         //回收entity对象
@@ -158,33 +157,6 @@ public class EffectPathController : SingletonMono<EffectPathController>
         }
         tweenList.Clear();
     }
-
-    //第一次特效抵达重点后执行的步骤
-    private void OnEndExcuteStep()
-    {
-        List<int> idList = m_EffectData.CfgShowEffectPathData.OnEndStepIdList;
-        Debug.LogFormat("特效到达终点，执行相关步骤");
-        EventDispatcher.GetInstance().DispatchEvent(EventType.FinishSubStep, m_EffectData.SubStep);
-        foreach (var id in idList)
-        {
-            //执行的步骤暂时不能有依赖项
-            SubStepData data = CfgManager.GetInstance().GetSubStepData(id);
-            data.Run();
-        }
-    }
-
-    //重置-抵达终点后的步骤表现
-    private void ResetEndStep()
-    {
-        List<int> idList = m_EffectData.CfgShowEffectPathData.OnEndStepIdList;
-        Debug.LogFormat("重置-抵达终点后的步骤表现");
-        foreach (var id in idList)
-        {
-            SubStepData data = CfgManager.GetInstance().GetSubStepData(id);
-            data.ResetSubStep();
-        }
-    }
-
 
 
 }

@@ -8,11 +8,12 @@ using UnityEngine;
 //物体显示隐藏单例类
 public class ActiveController : SingletonMono<ActiveController>
 {
-    private void Awake()
+    public override void Init()
     {
+        base.Init();
     }
- 
-   
+
+
 
 
 

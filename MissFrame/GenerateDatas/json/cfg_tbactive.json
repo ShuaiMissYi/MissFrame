@@ -12,5 +12,19 @@
     "rootName": "Root",
     "relativePath": "Node2/obj2",
     "isActive": true
+  },
+  {
+    "id": 3,
+    "desc": "Active——3",
+    "rootName": "Root",
+    "relativePath": "obj3",
+    "isActive": true
+  },
+  {
+    "id": 4,
+    "desc": "Active——3",
+    "rootName": "Root",
+    "relativePath": "obj4",
+    "isActive": true
   }
 ]

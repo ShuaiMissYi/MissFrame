@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class SubStepController : SingletonMono<SubStepController>
 {
-
-    private void Awake()
+    public override void Init()
     {
+        base.Init();
         AddListener();
     }
+
 
     private void AddListener()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //继承自Monobehaviour类单例
@@ -33,10 +34,11 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
     }
 
     //初始化
-    public void Init()
+    public virtual void Init()
     {
 
     }
+
 }
 
 
@@ -62,6 +64,15 @@ public class Singleton<T> where T : class, new()
         }
         return m_Instance;
     }
+
+    /// <summary>
+    /// 数据初始化位置
+    /// </summary>
+    public virtual void Init()
+    {
+
+    }
+
 }
 
 

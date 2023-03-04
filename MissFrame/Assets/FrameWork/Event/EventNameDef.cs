@@ -8,6 +8,8 @@ public enum EventType{
     StopExecuteEffectPath,
     //完成子步骤监听
     FinishSubStep,
+    //完成步骤监听
+    FinishStep,
 
 }
 

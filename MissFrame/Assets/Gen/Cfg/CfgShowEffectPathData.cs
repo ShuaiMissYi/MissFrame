@@ -25,11 +25,10 @@ public sealed partial class CfgShowEffectPathData :  Bright.Config.BeanBase
         { if(!_json["interval"].IsNumber) { throw new SerializationException(); }  Interval = _json["interval"]; }
         { if(!_json["duration"].IsNumber) { throw new SerializationException(); }  Duration = _json["duration"]; }
         { var __json0 = _json["pathPointArray"]; if(!__json0.IsArray) { throw new SerializationException(); } int _n0 = __json0.Count; PathPointArray = new UnityEngine.Vector3[_n0]; int __index0=0; foreach(JSONNode __e0 in __json0.Children) { UnityEngine.Vector3 __v0;  { var _json2 = __e0; if(!_json2.IsObject) { throw new SerializationException(); } float __x; { if(!_json2["x"].IsNumber) { throw new SerializationException(); }  __x = _json2["x"]; } float __y; { if(!_json2["y"].IsNumber) { throw new SerializationException(); }  __y = _json2["y"]; } float __z; { if(!_json2["z"].IsNumber) { throw new SerializationException(); }  __z = _json2["z"]; }  __v0 = new UnityEngine.Vector3(__x, __y,__z); }  PathPointArray[__index0++] = __v0; }   }
-        { var __json0 = _json["onEndStepIdList"]; if(!__json0.IsArray) { throw new SerializationException(); } OnEndStepIdList = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  OnEndStepIdList.Add(__v0); }   }
         PostInit();
     }
 
-    public CfgShowEffectPathData(int id, string desc, int effectResID, int creatNum, float interval, float duration, UnityEngine.Vector3[] pathPointArray, System.Collections.Generic.List<int> onEndStepIdList ) 
+    public CfgShowEffectPathData(int id, string desc, int effectResID, int creatNum, float interval, float duration, UnityEngine.Vector3[] pathPointArray ) 
     {
         this.Id = id;
         this.Desc = desc;
@@ -38,7 +37,6 @@ public sealed partial class CfgShowEffectPathData :  Bright.Config.BeanBase
         this.Interval = interval;
         this.Duration = duration;
         this.PathPointArray = pathPointArray;
-        this.OnEndStepIdList = onEndStepIdList;
         PostInit();
     }
 
@@ -75,10 +73,6 @@ public sealed partial class CfgShowEffectPathData :  Bright.Config.BeanBase
     /// 路径点
     /// </summary>
     public UnityEngine.Vector3[] PathPointArray { get; private set; }
-    /// <summary>
-    /// 特效到达终点后执行的步骤id
-    /// </summary>
-    public System.Collections.Generic.List<int> OnEndStepIdList { get; private set; }
 
     public const int __ID__ = 497701815;
     public override int GetTypeId() => __ID__;
@@ -102,7 +96,6 @@ public sealed partial class CfgShowEffectPathData :  Bright.Config.BeanBase
         + "Interval:" + Interval + ","
         + "Duration:" + Duration + ","
         + "PathPointArray:" + Bright.Common.StringUtil.CollectionToString(PathPointArray) + ","
-        + "OnEndStepIdList:" + Bright.Common.StringUtil.CollectionToString(OnEndStepIdList) + ","
         + "}";
     }
     

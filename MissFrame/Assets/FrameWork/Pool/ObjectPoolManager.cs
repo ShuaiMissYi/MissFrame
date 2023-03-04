@@ -20,6 +20,19 @@ public class ObjectPoolManager : SingletonMono<ObjectPoolManager>
     //创建字典，键为string类型，值为List类型的，字典的名字为pool
     private Dictionary<int, List<PoolEntity>> pool;
 
+    private GameObject m_RootPool;
+    private GameObject RootPool 
+    {
+        get 
+        {
+            if (null == m_RootPool)
+            {
+                m_RootPool = new GameObject("RoolPool");
+            }
+            return m_RootPool;
+        }
+    }
+
     private void Awake()
     {
         pool = new Dictionary<int, List<PoolEntity>>();
@@ -125,6 +138,7 @@ public class ObjectPoolManager : SingletonMono<ObjectPoolManager>
     public void PushObjectToPool(PoolEntity entity)
     {
         int resID = entity.CfgResPrefabAsset.Id;
+        entity.transform.SetParent(RootPool.transform);
         if (pool.ContainsKey(resID))
         {
             pool[resID].Add(entity);

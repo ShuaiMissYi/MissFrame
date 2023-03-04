@@ -36,8 +36,6 @@ public class EffectData : ExpressionBase
     public override void Run(SubStepData data)
     {
         base.Run(data);
-        
-        Debug.LogFormat($"¼àÌýÖ´ÐÐÍê±Ï£º   {CfgShowEffectPathData.Desc}");
         EventDispatcher.GetInstance().DispatchEvent(StepShowType.ShowEffectPath, this);
     }
     public override void Reset()

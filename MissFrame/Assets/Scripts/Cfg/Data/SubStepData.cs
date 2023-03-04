@@ -8,6 +8,9 @@ public class SubStepData
     //子步骤配置数据
     private CfgSubStepData m_CfgSubStepData;
 
+    private StepData m_StepData;
+    public StepData MainStepData => m_StepData;
+
     //子步骤是否完成
     private bool m_IsFinish = false;
     public bool IsFinish => m_IsFinish;
@@ -29,6 +32,12 @@ public class SubStepData
             Debug.LogErrorFormat($"该子步骤id：{id}对应的子步骤配置为空！！！");
             return;
         }
+    }
+
+    //关联主步骤
+    public void RelevanceStep(StepData stepData)
+    {
+        m_StepData = stepData;
     }
 
     //方法内部判断自身是否可以运行
@@ -58,7 +67,7 @@ public class SubStepData
         else
         {
             //EventDispatcher.GetInstance().DispatchEvent();
-            ExpressionBase data = CfgManager.GetInstance().GetExpressInfo (m_CfgSubStepData.TriggerType,m_CfgSubStepData.TriggerId);
+            ExpressionBase data = CfgManager.GetInstance().GetExpressInfo (m_CfgSubStepData.TriggerType, m_CfgSubStepData.TriggerId);
             if (null!=data)
             {
                 m_IsRuning = true;

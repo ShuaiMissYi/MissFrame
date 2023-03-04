@@ -20,19 +20,17 @@ public sealed partial class CfgStepData :  Bright.Config.BeanBase
     {
         { if(!_json["stepId"].IsNumber) { throw new SerializationException(); }  StepId = _json["stepId"]; }
         { if(!_json["desc"].IsString) { throw new SerializationException(); }  Desc = _json["desc"]; }
-        { if(!_json["effectId"].IsNumber) { throw new SerializationException(); }  EffectId = _json["effectId"]; }
         { var __json0 = _json["childStepIdList"]; if(!__json0.IsArray) { throw new SerializationException(); } ChildStepIdList = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  ChildStepIdList.Add(__v0); }   }
-        { if(!_json["StepType"].IsNumber) { throw new SerializationException(); }  StepType = (Trigger.StepShowType)_json["StepType"].AsInt; }
+        { if(!_json["delay"].IsNumber) { throw new SerializationException(); }  Delay = _json["delay"]; }
         PostInit();
     }
 
-    public CfgStepData(int stepId, string desc, int effectId, System.Collections.Generic.List<int> childStepIdList, Trigger.StepShowType StepType ) 
+    public CfgStepData(int stepId, string desc, System.Collections.Generic.List<int> childStepIdList, float delay ) 
     {
         this.StepId = stepId;
         this.Desc = desc;
-        this.EffectId = effectId;
         this.ChildStepIdList = childStepIdList;
-        this.StepType = StepType;
+        this.Delay = delay;
         PostInit();
     }
 
@@ -50,17 +48,13 @@ public sealed partial class CfgStepData :  Bright.Config.BeanBase
     /// </summary>
     public string Desc { get; private set; }
     /// <summary>
-    /// 特效id
-    /// </summary>
-    public int EffectId { get; private set; }
-    /// <summary>
     /// 子步骤id列表
     /// </summary>
     public System.Collections.Generic.List<int> ChildStepIdList { get; private set; }
     /// <summary>
-    /// 步骤触发类型
+    /// 从上一个步骤到该步骤所延迟执行的时间（s/秒）
     /// </summary>
-    public Trigger.StepShowType StepType { get; private set; }
+    public float Delay { get; private set; }
 
     public const int __ID__ = 688752208;
     public override int GetTypeId() => __ID__;
@@ -79,9 +73,8 @@ public sealed partial class CfgStepData :  Bright.Config.BeanBase
         return "{ "
         + "StepId:" + StepId + ","
         + "Desc:" + Desc + ","
-        + "EffectId:" + EffectId + ","
         + "ChildStepIdList:" + Bright.Common.StringUtil.CollectionToString(ChildStepIdList) + ","
-        + "StepType:" + StepType + ","
+        + "Delay:" + Delay + ","
         + "}";
     }
     

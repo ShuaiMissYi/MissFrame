@@ -2,5 +2,9 @@
   {
     "id": 1,
     "path": "Effect/Effect"
+  },
+  {
+    "id": 2,
+    "path": "Effect/effect2"
   }
 ]

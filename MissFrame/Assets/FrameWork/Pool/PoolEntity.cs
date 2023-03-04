@@ -21,7 +21,6 @@ public class PoolEntity:MonoBehaviour
         ObjectPoolManager.GetInstance().PushObjectToPool(this);
         ResetPrefab();
         gameObject.SetActive(false);
-        Debug.Log("对象已回收");
     }
 
     //重置预设数据
@@ -30,7 +29,6 @@ public class PoolEntity:MonoBehaviour
         transform.localPosition = Vector3.zero;
         transform.localEulerAngles = Vector3.zero;
         transform.localScale = Vector3.one;
-        
     }
 
 

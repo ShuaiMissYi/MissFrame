@@ -18,7 +18,6 @@ public class ActiveData: ExpressionBase
 
     public ActiveData(int id):base(id)
     {
-        Debug.LogFormat($"m_ShowId:   {m_ShowId}");
         InitData();
     }
 
@@ -73,7 +72,6 @@ public class ActiveData: ExpressionBase
             return;
         }
         m_Target.SetActive(CfgActiveData.IsActive);
-        Debug.LogFormat($"¼àÌýÖ´ÐÐÍê±Ï£º   {CfgActiveData.Desc}");
         EventDispatcher.GetInstance().DispatchEvent(EventType.FinishSubStep, SubStep);
     }
     public override void Reset()

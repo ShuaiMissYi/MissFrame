@@ -1,7 +1,7 @@
 [
   {
     "id": 101,
-    "desc": "显示对象1",
+    "desc": "显示对象——101",
     "prepositionStepIdList": [],
     "nextStepIdList": [
       102
@@ -11,20 +11,55 @@
   },
   {
     "id": 102,
-    "desc": "播放特效路径",
+    "desc": "播放特效路径——102",
     "prepositionStepIdList": [
       101
     ],
-    "nextStepIdList": [],
+    "nextStepIdList": [
+      103
+    ],
     "triggerType": 2,
     "triggerId": 1
   },
   {
     "id": 103,
-    "desc": "显示对象2",
-    "prepositionStepIdList": [],
+    "desc": "显示对象——103",
+    "prepositionStepIdList": [
+      102
+    ],
     "nextStepIdList": [],
     "triggerType": 1,
     "triggerId": 2
+  },
+  {
+    "id": 201,
+    "desc": "播放特效路径——201",
+    "prepositionStepIdList": [],
+    "nextStepIdList": [
+      202,
+      203
+    ],
+    "triggerType": 2,
+    "triggerId": 2
+  },
+  {
+    "id": 202,
+    "desc": "显示对象——202",
+    "prepositionStepIdList": [
+      201
+    ],
+    "nextStepIdList": [],
+    "triggerType": 1,
+    "triggerId": 3
+  },
+  {
+    "id": 203,
+    "desc": "显示对象——203",
+    "prepositionStepIdList": [
+      201
+    ],
+    "nextStepIdList": [],
+    "triggerType": 1,
+    "triggerId": 4
   }
 ]
