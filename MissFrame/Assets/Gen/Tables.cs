@@ -18,6 +18,8 @@ public sealed partial class Tables
     public Cfg.TbSubStep TbSubStep {get; }
     public Cfg.TbActive TbActive {get; }
     public Cfg.TbShowEffectPath TbShowEffectPath {get; }
+    public Cfg.TbTweenLookAt TbTweenLookAt {get; }
+    public Cfg.TbTweenMove TbTweenMove {get; }
     public Cfg.TbResPrefabAsset TbResPrefabAsset {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
@@ -31,6 +33,10 @@ public sealed partial class Tables
         tables.Add("Cfg.TbActive", TbActive);
         TbShowEffectPath = new Cfg.TbShowEffectPath(loader("cfg_tbshoweffectpath")); 
         tables.Add("Cfg.TbShowEffectPath", TbShowEffectPath);
+        TbTweenLookAt = new Cfg.TbTweenLookAt(loader("cfg_tbtweenlookat")); 
+        tables.Add("Cfg.TbTweenLookAt", TbTweenLookAt);
+        TbTweenMove = new Cfg.TbTweenMove(loader("cfg_tbtweenmove")); 
+        tables.Add("Cfg.TbTweenMove", TbTweenMove);
         TbResPrefabAsset = new Cfg.TbResPrefabAsset(loader("cfg_tbresprefabasset")); 
         tables.Add("Cfg.TbResPrefabAsset", TbResPrefabAsset);
         PostInit();
@@ -39,6 +45,8 @@ public sealed partial class Tables
         TbSubStep.Resolve(tables); 
         TbActive.Resolve(tables); 
         TbShowEffectPath.Resolve(tables); 
+        TbTweenLookAt.Resolve(tables); 
+        TbTweenMove.Resolve(tables); 
         TbResPrefabAsset.Resolve(tables); 
         PostResolve();
     }
@@ -49,6 +57,8 @@ public sealed partial class Tables
         TbSubStep.TranslateText(translator); 
         TbActive.TranslateText(translator); 
         TbShowEffectPath.TranslateText(translator); 
+        TbTweenLookAt.TranslateText(translator); 
+        TbTweenMove.TranslateText(translator); 
         TbResPrefabAsset.TranslateText(translator); 
     }
     

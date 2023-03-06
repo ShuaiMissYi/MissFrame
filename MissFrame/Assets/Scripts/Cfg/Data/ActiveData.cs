@@ -14,18 +14,15 @@ public class ActiveData: ExpressionBase
     private CfgActiveData m_CfgActiveData;
     public CfgActiveData CfgActiveData => m_CfgActiveData;
 
-    private GameObject m_Target;
-
     public ActiveData(int id):base(id)
     {
-        InitData();
+        
     }
 
     //使用该类时，重置一次，以免场景对象丢失
-    public void InitData()
+    public override void InitCfgData()
     {
         InitCfgData(m_ShowId);
-        InitEntityData();
     }
 
     private void InitCfgData(int id)
@@ -38,50 +35,16 @@ public class ActiveData: ExpressionBase
         }
     }
 
-    //初始化entity所需要的数据
-    private void InitEntityData()
-    {
-        if (null==CfgActiveData)
-        {
-            return;
-        }
-        GameObject root = GameObject.Find(CfgActiveData.RootName);
-        if (GameUtilits.GameIsNull(root))
-        {
-            return;
-        }
-        GameObject target = root.transform.Find(CfgActiveData.RelativePath).gameObject;
-        if (GameUtilits.GameIsNull(target))
-        {
-            return;
-        }
-        m_Target = target;
-    }
-
 
     public override void Run(SubStepData data)
     {
         base.Run(data);
-        if (GameUtilits.GameIsNull(m_Target,false))
-        {
-            //每次运行时，检测是否对象为空，若为空，则重新获取一次
-            InitEntityData();
-        }
-        if (GameUtilits.GameIsNull(m_Target))
-        {
-            return;
-        }
-        m_Target.SetActive(CfgActiveData.IsActive);
-        EventDispatcher.GetInstance().DispatchEvent(EventType.FinishSubStep, SubStep);
+        EventDispatcher.GetInstance().DispatchEvent(StepShowType.Active, this);
     }
     public override void Reset()
     {
         base.Reset();
-        if (GameUtilits.GameIsNull(m_Target))
-        {
-            return;
-        }
-        m_Target.SetActive(!CfgActiveData.IsActive);
+        EventDispatcher.GetInstance().DispatchEvent(EventType.StopExecuteActive, this);
     }
 
 

@@ -13,12 +13,11 @@ public class EffectData : ExpressionBase
 
     public EffectData(int id) : base(id)
     {
-        Debug.LogFormat($"m_ShowId:   {m_ShowId}");
-        InitData();
+        
     }
 
     //使用该类时，重置一次，以免场景对象丢失
-    public void InitData()
+    public override void InitCfgData()
     {
         InitCfgData(m_ShowId);
     }

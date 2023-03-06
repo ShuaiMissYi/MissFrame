@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public static class GameUtilits
@@ -14,7 +16,7 @@ public static class GameUtilits
     /// <returns></returns>
     public static bool GameIsNull<T>(T t, bool isShowLog = true) where T : class
     {
-        if (null == t) 
+        if (null == t)
         {
             if (isShowLog)
             {

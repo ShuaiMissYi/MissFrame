@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,22 +12,20 @@ public class Game : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-       
-    }
-
 
     private void InitSingleton()
     {
+        //初始化配置表数据
+        CfgManager.GetInstance().Init();
         //子步骤
         SubStepController.GetInstance().Init();
         //显隐
         ActiveController.GetInstance().Init();
         //特效路径
         EffectPathController.GetInstance().Init();
-        //初始化配置表数据
-        CfgManager.GetInstance().Init();
+        //TweenMove
+        TweenMoveController.GetInstance().Init();
+
     }
 
     public void ExecuteStep(int stepId)

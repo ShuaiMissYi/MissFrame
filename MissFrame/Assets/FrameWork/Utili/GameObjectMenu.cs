@@ -85,6 +85,23 @@ namespace GameFrame
             Debug.Log(str + " 已经复制到剪切板了！");
         }
 
+
+        [MenuItem("GameObject/复制物体/复制坐标",false,1)]
+        static void CopyGamePosStr()
+        {
+            GameObject go = Selection.activeGameObject;
+            if (go == null)
+                return;
+            Vector3 pos = go.transform.position;
+            string str = string.Format($"{pos.x},{pos.y},{pos.z}");
+            TextEditor.text = str;
+            TextEditor.OnFocus();
+            TextEditor.Copy();
+            Debug.Log(str + "  已经复制到剪切板了！");
+        }
+
+        
+
     }
 
     public class StringTools

@@ -19,6 +19,14 @@ namespace MissFrame.Trigger
         /// 显示特效路径
         /// </summary>
         ShowEffectPath = 2,
+        /// <summary>
+        /// 看向目标
+        /// </summary>
+        TweenLookAt = 3,
+        /// <summary>
+        /// 移动至目标
+        /// </summary>
+        TweenMove = 4,
     }
 
 } 

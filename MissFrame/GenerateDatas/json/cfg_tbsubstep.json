@@ -61,5 +61,21 @@
     "nextStepIdList": [],
     "triggerType": 1,
     "triggerId": 4
+  },
+  {
+    "id": 301,
+    "desc": "看向目标——301",
+    "prepositionStepIdList": [],
+    "nextStepIdList": [],
+    "triggerType": 3,
+    "triggerId": 1
+  },
+  {
+    "id": 302,
+    "desc": "移动到某一点——302",
+    "prepositionStepIdList": [],
+    "nextStepIdList": [],
+    "triggerType": 4,
+    "triggerId": 1
   }
 ]

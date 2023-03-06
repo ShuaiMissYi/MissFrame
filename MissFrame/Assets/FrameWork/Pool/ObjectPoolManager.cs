@@ -71,7 +71,7 @@ public class ObjectPoolManager : SingletonMono<ObjectPoolManager>
                 Debug.LogError($"prefab为空，请检查加载路径是否正确： {asset.Path}");
                 return null;
             }
-            GameObject go = GameObject.Instantiate(prefab);
+            GameObject go = GameObject.Instantiate(prefab, RootPool.transform);
             if (!go.TryGetComponent(out entity))
             {
                 entity = go.AddComponent<PoolEntity>();
@@ -95,7 +95,7 @@ public class ObjectPoolManager : SingletonMono<ObjectPoolManager>
             {
                 Debug.LogError("go 为空");
             }
-            go = GameObject.Instantiate(go);
+            go = GameObject.Instantiate(go,RootPool.transform);
             go.SetActive(true);
             PoolEntity entity = null;
             if (!go.TryGetComponent(out entity))

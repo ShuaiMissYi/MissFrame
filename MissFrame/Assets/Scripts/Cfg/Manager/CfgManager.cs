@@ -18,6 +18,8 @@ public class CfgManager : Singleton<CfgManager>
     private Dictionary<int, ActiveData> DicActiveData = new Dictionary<int, ActiveData>();
     //特效轨迹-配置数据
     private Dictionary<int, EffectData> DicEffectShowPathData = new Dictionary<int, EffectData>();
+    //Tween移动-配置数据
+    private Dictionary<int, TweenMoveData> DicTweenMoveData = new Dictionary<int, TweenMoveData>();
 
     /// <summary>
     /// 总步骤数
@@ -38,6 +40,7 @@ public class CfgManager : Singleton<CfgManager>
         InitStepCfg();
         InitActiveCfg();
         InitEffectShowPathCfg();
+        InitTweenMoveCfg();
         InitCfgOther();
     }
 
@@ -95,6 +98,18 @@ public class CfgManager : Singleton<CfgManager>
         }
     }
 
+    //初始化《Tween移动》配置数据
+    private void InitTweenMoveCfg()
+    {
+        Dictionary<int, CfgTweenMoveData> map = CfgUtility.GetInstance().CfgTab.TbTweenMove.DataMap;
+        foreach (var key in map.Keys)
+        {
+            TweenMoveData data = new TweenMoveData(key);
+            DicTweenMoveData.Add(key, data);
+        }
+    }
+
+
     #endregion
 
 
@@ -151,6 +166,21 @@ public class CfgManager : Singleton<CfgManager>
         }
         return data;
     }
+    /// <summary>
+    /// 获取数据类-TweenMove
+    /// </summary>
+    /// <param name="id"></param>
+    public TweenMoveData GetTweenMoveData(int id)
+    {
+        TweenMoveData data = null;
+        if (!DicTweenMoveData.TryGetValue(id, out data))
+        {
+            Debug.LogError($"该id：{id} 对应的TweenMove类数据为空，请检查");
+        }
+        return data;
+    }
+
+
     //获取表现类数据
     public ExpressionBase GetExpressInfo(StepShowType type,int id)
     {
@@ -162,6 +192,9 @@ public class CfgManager : Singleton<CfgManager>
                 break;
             case StepShowType.ShowEffectPath:
                 data = GetEffectShowPathData(id);
+                break;
+            case StepShowType.TweenMove:
+                data = GetTweenMoveData(id);
                 break;
         }
         return data;

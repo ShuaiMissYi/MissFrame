@@ -17,7 +17,10 @@ public class ExpressionBase
     public ExpressionBase(int id)
     {
          this.m_ShowId = id;
+        InitCfgData();
     }
+
+    public virtual void InitCfgData() { }
 
     //运行表现效果
     public virtual void Run(SubStepData data) 
