@@ -29,9 +29,13 @@ public class ExpressionBase
     }
 
     //重置表现效果
-    public virtual void Reset()
+    public virtual void Reset() { }
+   
+
+    protected void ResetStep(EventType eventType)
     {
-        
+        //重置该步骤的所有表现
+        EventDispatcher.GetInstance().DispatchEvent(eventType, this);
     }
 
 }

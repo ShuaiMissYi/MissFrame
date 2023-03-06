@@ -35,7 +35,7 @@ public class TweenMoveData : ExpressionBase
     public override void Reset()
     {
         base.Reset();
-        EventDispatcher.GetInstance().DispatchEvent(EventType.StopTweenMove, this);
+        ResetStep(EventType.StopTweenMove);
     }
 
 

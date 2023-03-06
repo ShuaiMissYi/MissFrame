@@ -23,7 +23,7 @@ public class TweenMoveController : SingletonMono<TweenMoveController>
 
     private void OnTweenMoveCallBack(params object[] objs)
     {
-        if (GameUtilits.GameIsNull(objs) || objs.Length == 0)
+        if (objs.ArrayIsNull())
         {
             return;
         }

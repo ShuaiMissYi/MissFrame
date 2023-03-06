@@ -7,6 +7,7 @@ public class SubStepData
 {
     //子步骤配置数据
     private CfgSubStepData m_CfgSubStepData;
+    public CfgSubStepData CfgSubStepData => m_CfgSubStepData;
 
     private StepData m_StepData;
     public StepData MainStepData => m_StepData;
@@ -126,19 +127,12 @@ public class SubStepData
         m_IsFinish = true;
         Debug.LogFormat($"步骤完成   {m_CfgSubStepData.Desc}");
     }
-    /// <summary>
-    /// 重置步骤状态 
-    /// </summary>
-    public void ResetStepState()
-    {
-        m_IsFinish = false;
-        m_IsRuning = false;
-    }
+    
 
     //重置子步骤
     public void ResetSubStep()
     {
-        //重置子步骤对象：表现，完成状态
+        //重置子步骤对象：表现、成状态
         if (IsRuning)
         {
             //如果正在运行，则重置
@@ -150,7 +144,14 @@ public class SubStepData
         }
         ResetStepState();
     }
-
+    /// <summary>
+    /// 重置步骤状态 
+    /// </summary>
+    private void ResetStepState()
+    {
+        m_IsFinish = false;
+        m_IsRuning = false;
+    }
 
 
 

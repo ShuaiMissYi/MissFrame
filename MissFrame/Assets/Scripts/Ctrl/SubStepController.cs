@@ -20,12 +20,12 @@ public class SubStepController : SingletonMono<SubStepController>
     //完成子步骤监听
     private void OnFinishSubStepCallBack(params object[] objs)
     {
-        if (GameUtilits.GameIsNull(objs)||objs.Length == 0)
+        if (objs.ArrayIsNull())
         {
             return;
         }
         SubStepData data = objs[0] as SubStepData;
-        if (GameUtilits.GameIsNull(data))
+        if (data.IsNull())
         {
             return;
         }

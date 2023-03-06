@@ -19,13 +19,17 @@ public class StepController : SingletonMono<StepController>
         EventDispatcher.GetInstance().Regist(EventType.FinishStep, OnFinishStepCallBack);
     }
 
-
+    //运行步骤
     public void StartStep(int stepId)
     {
         if (null!= m_CurStepData)
         {
-            m_CurStepData.Reset();
-            m_CurStepData = null;
+            //执行该步骤时，判断上一个步骤是否需要重置
+            if (m_CurStepData.CfgStepData.IsNeedReset)
+            {
+                m_CurStepData.Reset();
+                m_CurStepData = null;
+            }
         }
         StepData stepData = CfgManager.GetInstance().GetStepData(stepId);
         if (null != stepData)
@@ -35,10 +39,10 @@ public class StepController : SingletonMono<StepController>
         }
     }
 
-    //重置步骤
-    public void ResetStep()
+    //重置当前正在运行的步骤
+    public void ResetCurRunningStep()
     {
-        if (GameUtilits.GameIsNull(m_CurStepData,false))
+        if (m_CurStepData.IsNull())
         {
             Debug.Log("当前无操作步骤");
             return;
@@ -55,20 +59,28 @@ public class StepController : SingletonMono<StepController>
     {
         int allStepNum = CfgManager.GetInstance().AllStepNum;
         stepId = stepId < 1 || stepId > allStepNum ? 1 : stepId;
-        ResetStep();
+        StartStep(stepId);
+
+        /*
+        ResetCurRunningStep();
         StepData stepData = CfgManager.GetInstance() .GetStepData(stepId);
         m_CurStepData = stepData;
         stepData.Start();
+        */
     }
 
     //协程延迟执行下一个步骤
-    private IEnumerator IE_ExcuteNextStep(StepData curStepData,StepData nextStepData)
+    private IEnumerator IE_ExcuteNextStep(StepData nextStepData)
     {
         Debug.Log($"延迟几秒执行： {nextStepData.CfgStepData.Delay}");
         yield return new WaitForSeconds(nextStepData.CfgStepData.Delay);
+        /*
         curStepData.Reset();
         m_CurStepData = nextStepData;
         nextStepData.Start();
+        */
+        StartStep(nextStepData.CfgStepData.StepId);
+
     }
 
     //步骤完成监听
@@ -76,23 +88,23 @@ public class StepController : SingletonMono<StepController>
     {
         if (!IsAutoExcuteStep)
         {
-            Debug.LogErrorFormat($"IsAutoExcuteStep： {IsAutoExcuteStep}");
+            LogUtilits.LogErrorFormat($"IsAutoExcuteStep： {IsAutoExcuteStep}");
             return;
         }
-        if (GameUtilits.GameIsNull(objs) || objs.Length == 0)
+        if (objs.ArrayIsNull())
         {
-            Debug.LogErrorFormat("空");
+            LogUtilits.LogErrorFormat("空");
             return;
         }
         StepData stepData = objs[0] as StepData;
         if (null == m_CurStepData)
         {
-            Debug.LogError("当前执行的步骤为空，请检查！！！");
+            LogUtilits.LogErrorFormat("当前执行的步骤为空，请检查！！！");
             return;
         }
         if (m_CurStepData.CfgStepData.StepId != stepData.CfgStepData.StepId)
         {
-            Debug.LogErrorFormat($"步骤id不相同 curId: {m_CurStepData.CfgStepData.StepId}  stepId: {stepData.CfgStepData.StepId}");
+            LogUtilits.LogErrorFormat($"步骤id不相同 curId: {m_CurStepData.CfgStepData.StepId}  stepId: {stepData.CfgStepData.StepId}");
             return;
         }
         int nextStepId = m_CurStepData.CfgStepData.StepId;
@@ -106,7 +118,7 @@ public class StepController : SingletonMono<StepController>
         }
         //下一个步骤数据
         StepData nextStepData = CfgManager.GetInstance().GetStepData(nextStepId);
-        m_CorAutoNext = StartCoroutine(IE_ExcuteNextStep(m_CurStepData,nextStepData));
+        m_CorAutoNext = StartCoroutine(IE_ExcuteNextStep(nextStepData));
     }
 
 

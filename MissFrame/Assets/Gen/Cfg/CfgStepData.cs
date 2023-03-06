@@ -22,15 +22,17 @@ public sealed partial class CfgStepData :  Bright.Config.BeanBase
         { if(!_json["desc"].IsString) { throw new SerializationException(); }  Desc = _json["desc"]; }
         { var __json0 = _json["childStepIdList"]; if(!__json0.IsArray) { throw new SerializationException(); } ChildStepIdList = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  ChildStepIdList.Add(__v0); }   }
         { if(!_json["delay"].IsNumber) { throw new SerializationException(); }  Delay = _json["delay"]; }
+        { if(!_json["isNeedReset"].IsBoolean) { throw new SerializationException(); }  IsNeedReset = _json["isNeedReset"]; }
         PostInit();
     }
 
-    public CfgStepData(int stepId, string desc, System.Collections.Generic.List<int> childStepIdList, float delay ) 
+    public CfgStepData(int stepId, string desc, System.Collections.Generic.List<int> childStepIdList, float delay, bool isNeedReset ) 
     {
         this.StepId = stepId;
         this.Desc = desc;
         this.ChildStepIdList = childStepIdList;
         this.Delay = delay;
+        this.IsNeedReset = isNeedReset;
         PostInit();
     }
 
@@ -55,6 +57,10 @@ public sealed partial class CfgStepData :  Bright.Config.BeanBase
     /// 从上一个步骤到该步骤所延迟执行的时间（s/秒）
     /// </summary>
     public float Delay { get; private set; }
+    /// <summary>
+    /// 执行下一个步骤时，是否需要重置到步骤执行之前的状态
+    /// </summary>
+    public bool IsNeedReset { get; private set; }
 
     public const int __ID__ = 688752208;
     public override int GetTypeId() => __ID__;
@@ -75,6 +81,7 @@ public sealed partial class CfgStepData :  Bright.Config.BeanBase
         + "Desc:" + Desc + ","
         + "ChildStepIdList:" + Bright.Common.StringUtil.CollectionToString(ChildStepIdList) + ","
         + "Delay:" + Delay + ","
+        + "IsNeedReset:" + IsNeedReset + ","
         + "}";
     }
     

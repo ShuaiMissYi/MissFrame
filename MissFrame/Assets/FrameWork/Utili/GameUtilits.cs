@@ -6,17 +6,9 @@ using UnityEngine;
 
 public static class GameUtilits
 {
-
-    /// <summary>
-    /// 对象是否为空
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="t"></param>
-    /// <param name="isShowLog"></param>
-    /// <returns></returns>
-    public static bool GameIsNull<T>(T t, bool isShowLog = true) where T : class
+    public static bool IsNull<T>(this T target, bool isShowLog = false)
     {
-        if (null == t)
+        if (null == target)
         {
             if (isShowLog)
             {
@@ -27,8 +19,30 @@ public static class GameUtilits
         return false;
     }
 
+    public static bool ListIsNull<T>(this List<T> list, bool isShowLog = false)
+    {
+        if (null == list || list.Count == 0)
+        {
+            if (isShowLog)
+            {
+                LogUtilits.LogErrorFormat($"该列表对象为空or长度为0，请检查！！！");
+            }
+            return true;
+        }
+        return false;
+    }
 
-
-
+    public static bool ArrayIsNull<T>(this T[] array, bool isShowLog = false)
+    {
+        if (null == array || array.Length == 0)
+        {
+            if (isShowLog)
+            {
+                LogUtilits.LogErrorFormat($"该列表对象为空or长度为0，请检查！！！");
+            }
+            return true;
+        }
+        return false;
+    }
 
 }

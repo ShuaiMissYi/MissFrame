@@ -35,7 +35,7 @@ public class TweenLookAtData : ExpressionBase
     public override void Reset()
     {
         base.Reset();
-        EventDispatcher.GetInstance().DispatchEvent(EventType.StopTweenLookAt, this);
+        ResetStep(EventType.StopTweenLookAt);
     }
 
 

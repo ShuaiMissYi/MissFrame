@@ -2,6 +2,7 @@
 /// 事件监听枚举
 /// </summary>
 public enum EventType{ 
+    None = 0,
     //开始执行步骤
     StartExecuteStep = 1,
     //完成子步骤监听

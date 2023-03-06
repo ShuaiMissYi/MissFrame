@@ -7,7 +7,8 @@
       102,
       103
     ],
-    "delay": 5
+    "delay": 5,
+    "isNeedReset": false
   },
   {
     "stepId": 2,
@@ -17,7 +18,8 @@
       202,
       203
     ],
-    "delay": 3
+    "delay": 3,
+    "isNeedReset": false
   },
   {
     "stepId": 3,
@@ -26,6 +28,7 @@
       301,
       302
     ],
-    "delay": 3
+    "delay": 3,
+    "isNeedReset": false
   }
 ]

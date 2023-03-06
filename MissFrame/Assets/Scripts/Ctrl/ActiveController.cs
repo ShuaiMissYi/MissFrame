@@ -26,19 +26,19 @@ public class ActiveController : SingletonMono<ActiveController>
     //查找步骤对象
     private GameObject FindStepActiveGame(ActiveData data)
     {
-        if (GameUtilits.GameIsNull(data))
+        if (data.IsNull())
         {
             LogUtilits.LogErrorObjIsNull();
             return null;
         }
         GameObject root = GameObject.Find(m_ActiveData.CfgActiveData.RootName);
-        if (GameUtilits.GameIsNull(root))
+        if (root.IsNull())
         {
             LogUtilits.LogErrorObjIsNull();
             return null;
         }
         GameObject target = root.transform.Find(m_ActiveData.CfgActiveData.RelativePath).gameObject;
-        if (GameUtilits.GameIsNull(target))
+        if (target.IsNull())
         {
             LogUtilits.LogErrorObjIsNull();
             return null;
@@ -48,7 +48,7 @@ public class ActiveController : SingletonMono<ActiveController>
 
     private void OnActiveCallBack(params object[] objs)
     {
-        if (GameUtilits.GameIsNull(objs) || objs.Length == 0 )
+        if (objs.ArrayIsNull())
         {
             LogUtilits.LogErrorObjIsNull();
             return;
@@ -61,7 +61,7 @@ public class ActiveController : SingletonMono<ActiveController>
 
     private void OnStopExecuteActiveCallBack(params object[] objs)
     {
-        if (GameUtilits.GameIsNull(objs) || objs.Length == 0)
+        if (objs.ArrayIsNull())
         {
             LogUtilits.LogErrorObjIsNull();
             return;

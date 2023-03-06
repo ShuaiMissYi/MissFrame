@@ -10,11 +10,13 @@ public class EffectPathController : SingletonMono<EffectPathController>
     private EffectData m_EffectData;
 
     private List<PoolEntity> PoolEntityList = new List<PoolEntity>();
+    //key：轨迹id    value：资源数据类列表
+    private Dictionary<int,List<PoolEntity>> DicPoolEntity = new Dictionary<int, List<PoolEntity>>();
 
-    //特效间隔播放协程
-    private Coroutine m_CoroutineEffectFly;
-    //第一个特效飞行完毕协程
-    private Coroutine m_CoroutineDelayOnEnd;
+    //key：轨迹id  value：子步骤轨迹协程-每个飞行点之间的间隔时间
+    private Dictionary<int,Coroutine> DicCorEffectFly = new Dictionary<int,Coroutine>();
+    //key：轨迹id  value：子步骤协程-播放一圈需要的时长
+    private Dictionary<int, Coroutine> DicCorDelayOnEnd = new Dictionary<int, Coroutine>();
 
     private List<Tween> tweenList = new List<Tween>();
 
@@ -32,7 +34,7 @@ public class EffectPathController : SingletonMono<EffectPathController>
 
     private void OnShowEffectPathCallBack(params object[] objs)
     {
-        if (GameUtilits.GameIsNull(objs) ||objs.Length==0)
+        if (objs.ArrayIsNull())
         {
             return;
         }
@@ -45,37 +47,62 @@ public class EffectPathController : SingletonMono<EffectPathController>
     {
         int index = 0;
         Debug.LogFormat("开始生成entity");
-        for (int i = 0; i < m_CreatEffectNum; i++)
+        int effectId = m_EffectData.CfgShowEffectPathData.Id;
+        int resId = m_EffectData.CfgShowEffectPathData.EffectResID;
+        List<PoolEntity> entityList = null;
+        DicPoolEntity.TryGetValue(effectId, out entityList);
+        if (entityList.ListIsNull())
         {
-            ObjectPoolManager.GetInstance().GetObjectFormPoolAsyncByResId(m_EffectData.CfgShowEffectPathData.EffectResID, (entity) =>
-            {
-                index++;
-                entity.gameObject.SetActive(true);
-                PoolEntityList.Add(entity);
-                if (index == m_CreatEffectNum)
-                {
-                    //生成完毕，开始播放轨迹特效
-                    StopIE_EffectFly();
-                    StopIE_DelayOnEnd();
-                    m_CoroutineEffectFly = StartCoroutine(IE_EffectFly());
-                    m_CoroutineDelayOnEnd = StartCoroutine(IE_DelayEndAction());
-                }
-            });
+            entityList = new List<PoolEntity>();
+            DicPoolEntity[effectId] = entityList;
         }
+        if (entityList.Count < m_CreatEffectNum)
+        {
+            m_CreatEffectNum = m_CreatEffectNum - DicPoolEntity[effectId].Count;
+            for (int i = 0; i < m_CreatEffectNum; i++)
+            {
+                ObjectPoolManager.GetInstance().GetObjectFormPoolAsyncByResId(resId, (entity) =>
+                {
+                    index++;
+                    entity.gameObject.SetActive(true);
+                    entityList.Add(entity);
+                    if (index == m_CreatEffectNum)
+                    {
+                        CreatEndEffectObj();
+                    }
+                });
+            }
+        }
+        else
+        {
+            CreatEndEffectObj();
+        }
+        
     }
+    //生成特效对象后调用
+    private void CreatEndEffectObj()
+    {
+        //生成完毕，开始播放轨迹特效
+        int effectId = m_EffectData.CfgShowEffectPathData.Id;
+        DicCorEffectFly[effectId] = StartCoroutine(IE_EffectFly());
+        DicCorDelayOnEnd[effectId] = StartCoroutine(IE_DelayEndAction());
+    }
+
     private IEnumerator IE_DelayEndAction()
     {
         yield return new WaitForSeconds(m_EffectData.CfgShowEffectPathData.Duration);
-        //Debug.LogError("抵达终点");
+        LogUtilits.LogFormat("抵达终点");
         EventDispatcher.GetInstance().DispatchEvent(EventType.FinishSubStep, m_EffectData.SubStep);
     }
 
     private IEnumerator IE_EffectFly()
     {
         Debug.LogFormat("开始协程---特效轨迹");
+        int effectResId = m_EffectData.CfgShowEffectPathData.EffectResID;
+        List<PoolEntity> entityList = DicPoolEntity[effectResId];
         for (int i = 0; i < m_CreatEffectNum; i++)
         {
-            TargetFly(PoolEntityList[i],i);
+            TargetFly(entityList[i],i);
             yield return new WaitForSeconds(m_EffectData.CfgShowEffectPathData.Interval);
         }
     }
@@ -96,7 +123,7 @@ public class EffectPathController : SingletonMono<EffectPathController>
         {
             return;
         }
-        if (GameUtilits.GameIsNull(objs) || objs.Length == 0)
+        if (objs.ArrayIsNull())
         {
             return;
         }
@@ -110,20 +137,32 @@ public class EffectPathController : SingletonMono<EffectPathController>
     //停止-特效协程
     private void StopIE_EffectFly()
     {
-        if (null != m_CoroutineEffectFly)
+        if (null == m_EffectData)
         {
-            StopCoroutine(m_CoroutineEffectFly);
-            m_CoroutineEffectFly = null;
+            return;
         }
+        Coroutine cor = DicCorEffectFly[m_EffectData.CfgShowEffectPathData.Id];
+        if (null == cor)
+        {
+            return;
+        }
+        StopCoroutine(cor);
+        cor = null;
     }
     //停止-步骤结束协程
     private void StopIE_DelayOnEnd()
     {
-        if (null != m_CoroutineDelayOnEnd)
+        if (null == m_EffectData)
         {
-            StopCoroutine(m_CoroutineDelayOnEnd);
-            m_CoroutineDelayOnEnd = null;
+            return;
         }
+        Coroutine cor = DicCorDelayOnEnd[m_EffectData.CfgShowEffectPathData.Id];
+        if (null == cor)
+        {
+            return;
+        }
+        StopCoroutine(cor);
+        cor = null;
     }
 
 

@@ -22,7 +22,7 @@ public class TweenLookAtController : SingletonMono<TweenLookAtController>
 
     private void OnTweenLookAtCallBack(params object[] objs)
     {
-        if (GameUtilits.GameIsNull(objs) || objs.Length == 0)
+        if (objs.ArrayIsNull())
         {
             return;
         }

@@ -38,7 +38,7 @@ public class Game : MonoBehaviour
 
     public void ResetStep()
     {
-        StepController.GetInstance().ResetStep();
+        StepController.GetInstance().ResetCurRunningStep();
     }
 
     //自动执行步骤

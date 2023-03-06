@@ -40,7 +40,7 @@ public class EffectData : ExpressionBase
     public override void Reset()
     {
         base.Reset();
-        EventDispatcher.GetInstance().DispatchEvent(EventType.StopExecuteEffectPath, this);
+        ResetStep(EventType.StopExecuteEffectPath);
     }
 
 

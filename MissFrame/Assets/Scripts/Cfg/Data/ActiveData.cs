@@ -44,7 +44,7 @@ public class ActiveData: ExpressionBase
     public override void Reset()
     {
         base.Reset();
-        EventDispatcher.GetInstance().DispatchEvent(EventType.StopExecuteActive, this);
+        ResetStep(EventType.StopExecuteActive);
     }
 
 

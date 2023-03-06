@@ -24,11 +24,10 @@ public sealed partial class CfgSubStepData :  Bright.Config.BeanBase
         { var __json0 = _json["nextStepIdList"]; if(!__json0.IsArray) { throw new SerializationException(); } NextStepIdList = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  NextStepIdList.Add(__v0); }   }
         { if(!_json["triggerType"].IsNumber) { throw new SerializationException(); }  TriggerType = (Trigger.StepShowType)_json["triggerType"].AsInt; }
         { if(!_json["triggerId"].IsNumber) { throw new SerializationException(); }  TriggerId = _json["triggerId"]; }
-        { if(!_json["isNeedReset"].IsBoolean) { throw new SerializationException(); }  IsNeedReset = _json["isNeedReset"]; }
         PostInit();
     }
 
-    public CfgSubStepData(int id, string desc, System.Collections.Generic.List<int> prepositionStepIdList, System.Collections.Generic.List<int> nextStepIdList, Trigger.StepShowType triggerType, int triggerId, bool isNeedReset ) 
+    public CfgSubStepData(int id, string desc, System.Collections.Generic.List<int> prepositionStepIdList, System.Collections.Generic.List<int> nextStepIdList, Trigger.StepShowType triggerType, int triggerId ) 
     {
         this.Id = id;
         this.Desc = desc;
@@ -36,7 +35,6 @@ public sealed partial class CfgSubStepData :  Bright.Config.BeanBase
         this.NextStepIdList = nextStepIdList;
         this.TriggerType = triggerType;
         this.TriggerId = triggerId;
-        this.IsNeedReset = isNeedReset;
         PostInit();
     }
 
@@ -69,10 +67,6 @@ public sealed partial class CfgSubStepData :  Bright.Config.BeanBase
     /// 根据&lt;triggerType&gt;类型去对应的表中读取<br/>表现id配置
     /// </summary>
     public int TriggerId { get; private set; }
-    /// <summary>
-    /// 执行下一个步骤时，是否需要重置到步骤执行之前的状态
-    /// </summary>
-    public bool IsNeedReset { get; private set; }
 
     public const int __ID__ = -1047162116;
     public override int GetTypeId() => __ID__;
@@ -95,7 +89,6 @@ public sealed partial class CfgSubStepData :  Bright.Config.BeanBase
         + "NextStepIdList:" + Bright.Common.StringUtil.CollectionToString(NextStepIdList) + ","
         + "TriggerType:" + TriggerType + ","
         + "TriggerId:" + TriggerId + ","
-        + "IsNeedReset:" + IsNeedReset + ","
         + "}";
     }
     
