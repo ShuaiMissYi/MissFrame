@@ -23,5 +23,15 @@ public static class LogUtilits
         Debug.LogError("容量数量为0，请检查");
     }
 
+    public static void LogFormat(string content, params string[] args)
+    {
+        Debug.LogFormat(content,args);
+    }
+
+    public static void LogErrorFormat(string content, params string[] args)
+    {
+        Debug.LogErrorFormat(content, args);
+    }
+
 
 }

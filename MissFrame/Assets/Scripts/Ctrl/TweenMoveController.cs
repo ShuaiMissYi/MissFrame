@@ -41,8 +41,12 @@ public class TweenMoveController : SingletonMono<TweenMoveController>
         Transform transTarget = rootTarget.transform.Find(m_TweenMoveData.CfgTweenMoveData.RelativeTargetPath);
         //ÒÆ¶¯¶ÔÏó
         transOpera.gameObject.SetActive(true);
-        m_MoveTween = transOpera.DOMove(transTarget.position,m_TweenMoveData.CfgTweenMoveData.Duration).SetEase(Ease.Linear);
+        m_MoveTween = transOpera.DOMove(transTarget.position, m_TweenMoveData.CfgTweenMoveData.Duration).SetEase(Ease.Linear).OnComplete(() => 
+        {
+            EventDispatcher.GetInstance().DispatchEvent(EventType.FinishSubStep, m_TweenMoveData.SubStep);
+        });
     }
+   
 
     private void OnStopTweenMoveCallBack(params object[] objs)
     {

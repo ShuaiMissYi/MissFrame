@@ -7,7 +7,8 @@
       102
     ],
     "triggerType": 1,
-    "triggerId": 1
+    "triggerId": 1,
+    "isNeedReset": false
   },
   {
     "id": 102,
@@ -19,7 +20,8 @@
       103
     ],
     "triggerType": 2,
-    "triggerId": 1
+    "triggerId": 1,
+    "isNeedReset": false
   },
   {
     "id": 103,
@@ -29,7 +31,8 @@
     ],
     "nextStepIdList": [],
     "triggerType": 1,
-    "triggerId": 2
+    "triggerId": 2,
+    "isNeedReset": false
   },
   {
     "id": 201,
@@ -40,7 +43,8 @@
       203
     ],
     "triggerType": 2,
-    "triggerId": 2
+    "triggerId": 2,
+    "isNeedReset": true
   },
   {
     "id": 202,
@@ -50,7 +54,8 @@
     ],
     "nextStepIdList": [],
     "triggerType": 1,
-    "triggerId": 3
+    "triggerId": 3,
+    "isNeedReset": true
   },
   {
     "id": 203,
@@ -60,7 +65,8 @@
     ],
     "nextStepIdList": [],
     "triggerType": 1,
-    "triggerId": 4
+    "triggerId": 4,
+    "isNeedReset": true
   },
   {
     "id": 301,
@@ -68,7 +74,8 @@
     "prepositionStepIdList": [],
     "nextStepIdList": [],
     "triggerType": 3,
-    "triggerId": 1
+    "triggerId": 1,
+    "isNeedReset": true
   },
   {
     "id": 302,
@@ -76,6 +83,7 @@
     "prepositionStepIdList": [],
     "nextStepIdList": [],
     "triggerType": 4,
-    "triggerId": 1
+    "triggerId": 1,
+    "isNeedReset": true
   }
 ]

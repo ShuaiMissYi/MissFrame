@@ -23,6 +23,7 @@
     "stepId": 3,
     "desc": "描述3",
     "childStepIdList": [
+      301,
       302
     ],
     "delay": 3

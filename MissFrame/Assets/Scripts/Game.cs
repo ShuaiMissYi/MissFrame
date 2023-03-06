@@ -25,6 +25,8 @@ public class Game : MonoBehaviour
         EffectPathController.GetInstance().Init();
         //TweenMove
         TweenMoveController.GetInstance().Init();
+        //TweenLookAt
+        TweenLookAtController.GetInstance().Init();
 
     }
 

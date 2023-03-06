@@ -21,21 +21,21 @@ public sealed partial class CfgTweenLookAtData :  Bright.Config.BeanBase
         { if(!_json["id"].IsNumber) { throw new SerializationException(); }  Id = _json["id"]; }
         { if(!_json["desc"].IsString) { throw new SerializationException(); }  Desc = _json["desc"]; }
         { if(!_json["rootTargetName"].IsString) { throw new SerializationException(); }  RootTargetName = _json["rootTargetName"]; }
-        { if(!_json["targetRelativePath"].IsString) { throw new SerializationException(); }  TargetRelativePath = _json["targetRelativePath"]; }
-        { if(!_json["operaRootName"].IsString) { throw new SerializationException(); }  OperaRootName = _json["operaRootName"]; }
-        { if(!_json["operaRelativePath"].IsString) { throw new SerializationException(); }  OperaRelativePath = _json["operaRelativePath"]; }
+        { if(!_json["relativeTargetPath"].IsString) { throw new SerializationException(); }  RelativeTargetPath = _json["relativeTargetPath"]; }
+        { if(!_json["rootOperaName"].IsString) { throw new SerializationException(); }  RootOperaName = _json["rootOperaName"]; }
+        { if(!_json["relativeOperaPath"].IsString) { throw new SerializationException(); }  RelativeOperaPath = _json["relativeOperaPath"]; }
         { if(!_json["duration"].IsNumber) { throw new SerializationException(); }  Duration = _json["duration"]; }
         PostInit();
     }
 
-    public CfgTweenLookAtData(int id, string desc, string rootTargetName, string targetRelativePath, string operaRootName, string operaRelativePath, float duration ) 
+    public CfgTweenLookAtData(int id, string desc, string rootTargetName, string relativeTargetPath, string rootOperaName, string relativeOperaPath, float duration ) 
     {
         this.Id = id;
         this.Desc = desc;
         this.RootTargetName = rootTargetName;
-        this.TargetRelativePath = targetRelativePath;
-        this.OperaRootName = operaRootName;
-        this.OperaRelativePath = operaRelativePath;
+        this.RelativeTargetPath = relativeTargetPath;
+        this.RootOperaName = rootOperaName;
+        this.RelativeOperaPath = relativeOperaPath;
         this.Duration = duration;
         PostInit();
     }
@@ -57,15 +57,15 @@ public sealed partial class CfgTweenLookAtData :  Bright.Config.BeanBase
     /// <summary>
     /// 相对于根对象的路径
     /// </summary>
-    public string TargetRelativePath { get; private set; }
+    public string RelativeTargetPath { get; private set; }
     /// <summary>
     /// 操作对象的根名称
     /// </summary>
-    public string OperaRootName { get; private set; }
+    public string RootOperaName { get; private set; }
     /// <summary>
     /// 相对于根对象的路径
     /// </summary>
-    public string OperaRelativePath { get; private set; }
+    public string RelativeOperaPath { get; private set; }
     /// <summary>
     /// 所需时间
     /// </summary>
@@ -89,9 +89,9 @@ public sealed partial class CfgTweenLookAtData :  Bright.Config.BeanBase
         + "Id:" + Id + ","
         + "Desc:" + Desc + ","
         + "RootTargetName:" + RootTargetName + ","
-        + "TargetRelativePath:" + TargetRelativePath + ","
-        + "OperaRootName:" + OperaRootName + ","
-        + "OperaRelativePath:" + OperaRelativePath + ","
+        + "RelativeTargetPath:" + RelativeTargetPath + ","
+        + "RootOperaName:" + RootOperaName + ","
+        + "RelativeOperaPath:" + RelativeOperaPath + ","
         + "Duration:" + Duration + ","
         + "}";
     }

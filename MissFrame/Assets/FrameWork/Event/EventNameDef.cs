@@ -14,5 +14,7 @@ public enum EventType{
     StopExecuteEffectPath,
     //Õ£÷π-Tween“∆∂Ø
     StopTweenMove,
+    //Õ£÷π-Tween“∆∂Ø
+    StopTweenLookAt,
 }
 

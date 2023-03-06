@@ -20,6 +20,8 @@ public class CfgManager : Singleton<CfgManager>
     private Dictionary<int, EffectData> DicEffectShowPathData = new Dictionary<int, EffectData>();
     //Tween移动-配置数据
     private Dictionary<int, TweenMoveData> DicTweenMoveData = new Dictionary<int, TweenMoveData>();
+    //TweenLookAt-配置数据
+    private Dictionary<int, TweenLookAtData> DicTweenLookAtData = new Dictionary<int, TweenLookAtData>();
 
     /// <summary>
     /// 总步骤数
@@ -41,6 +43,7 @@ public class CfgManager : Singleton<CfgManager>
         InitActiveCfg();
         InitEffectShowPathCfg();
         InitTweenMoveCfg();
+        InitTweenLookAtCfg();
         InitCfgOther();
     }
 
@@ -106,6 +109,16 @@ public class CfgManager : Singleton<CfgManager>
         {
             TweenMoveData data = new TweenMoveData(key);
             DicTweenMoveData.Add(key, data);
+        }
+    }
+    //初始化《Tween移动》配置数据
+    private void InitTweenLookAtCfg()
+    {
+        Dictionary<int, CfgTweenLookAtData> map = CfgUtility.GetInstance().CfgTab.TbTweenLookAt.DataMap;
+        foreach (var key in map.Keys)
+        {
+            TweenLookAtData data = new TweenLookAtData(key);
+            DicTweenLookAtData.Add(key, data);
         }
     }
 
@@ -179,6 +192,19 @@ public class CfgManager : Singleton<CfgManager>
         }
         return data;
     }
+    /// <summary>
+    /// 获取数据类-TweenLookAtData
+    /// </summary>
+    /// <param name="id"></param>
+    public TweenLookAtData GetTweenLookAtData(int id)
+    {
+        TweenLookAtData data = null;
+        if (!DicTweenLookAtData.TryGetValue(id, out data))
+        {
+            Debug.LogError($"该id：{id} 对应的TweenLookAtData类数据为空，请检查");
+        }
+        return data;
+    }
 
 
     //获取表现类数据
@@ -195,6 +221,9 @@ public class CfgManager : Singleton<CfgManager>
                 break;
             case StepShowType.TweenMove:
                 data = GetTweenMoveData(id);
+                break;
+            case StepShowType.TweenLookAt:
+                data = GetTweenLookAtData(id);
                 break;
         }
         return data;

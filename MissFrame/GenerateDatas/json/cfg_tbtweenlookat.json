@@ -3,9 +3,9 @@
     "id": 1,
     "desc": "看向目标——1",
     "rootTargetName": "Root",
-    "targetRelativePath": "TweenLookAt",
-    "operaRootName": "Root",
-    "operaRelativePath": "MoveTarget",
-    "duration": 0.5
+    "relativeTargetPath": "lookPoint_1",
+    "rootOperaName": "Root",
+    "relativeOperaPath": "MoveTarget",
+    "duration": 1
   }
 ]

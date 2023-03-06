@@ -49,17 +49,12 @@ public class StepData
 
     public void Start()
     {
-        //1.开始执行
-        //Debug.LogFormat($"{m_CfgStepData.StepId} 发送开始执行监听");
-        //EventDispatcher.GetInstance().DispatchEvent( EventType.StartExecuteStep,this);
         Debug.Log("开始执行");
         RunStep();
     }
 
     public void Reset()
     {
-        //1.停止步骤代码逻辑
-        //Debug.LogFormat($"{m_CfgStepData.StepId}发送停止执行监听");
         Debug.Log("停止执行");
         ResetStep();
     }
@@ -106,6 +101,7 @@ public class StepData
         {
             //子步骤全部执行完毕
             m_IsFinish = true;
+            LogUtilits.LogFormat("子步骤全部执行完毕");
             EventDispatcher.GetInstance().DispatchEvent(EventType.FinishStep,this);
         }
     }
