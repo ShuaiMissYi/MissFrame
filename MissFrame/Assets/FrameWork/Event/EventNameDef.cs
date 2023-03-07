@@ -15,7 +15,9 @@ public enum EventType{
     StopExecuteEffectPath,
     //停止-Tween移动
     StopTweenMove,
-    //停止-Tween移动
+    //停止-Tween看向
     StopTweenLookAt,
+    //停止-ScannerShader着色器
+    StopScannerShader,
 }
 

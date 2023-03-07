@@ -1,10 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+
+
 
     private void Awake()
     {
@@ -27,6 +26,8 @@ public class Game : MonoBehaviour
         TweenMoveController.GetInstance().Init();
         //TweenLookAt
         TweenLookAtController.GetInstance().Init();
+        //ScannerShader
+        ScannerShaderController.GetInstance().Init();
 
     }
 
@@ -34,6 +35,7 @@ public class Game : MonoBehaviour
     {
         StepController.GetInstance().IsAutoExcuteStep = false;
         StepController.GetInstance().StartStep(stepId);
+        
     }
 
     public void ResetStep()

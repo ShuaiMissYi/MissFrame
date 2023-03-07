@@ -27,6 +27,10 @@ namespace MissFrame.Trigger
         /// 移动至目标
         /// </summary>
         TweenMove = 4,
+        /// <summary>
+        /// 扫描着色器设置
+        /// </summary>
+        ScannerShader = 5,
     }
 
 } 

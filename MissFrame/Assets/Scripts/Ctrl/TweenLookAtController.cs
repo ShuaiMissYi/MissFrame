@@ -8,10 +8,13 @@ public class TweenLookAtController : SingletonMono<TweenLookAtController>
 
     private Tween m_LookAtTween;
 
+    public string testName = "testÄÚÈÝ";
+
     public override void Init()
     {
         base.Init();
         AddListener();
+
     }
 
     private void AddListener()

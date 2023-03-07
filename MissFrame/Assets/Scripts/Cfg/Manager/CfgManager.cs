@@ -4,6 +4,7 @@ using SimpleJSON;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 public class CfgManager : Singleton<CfgManager>
@@ -22,6 +23,8 @@ public class CfgManager : Singleton<CfgManager>
     private Dictionary<int, TweenMoveData> DicTweenMoveData = new Dictionary<int, TweenMoveData>();
     //TweenLookAt-配置数据
     private Dictionary<int, TweenLookAtData> DicTweenLookAtData = new Dictionary<int, TweenLookAtData>();
+    //ScannerShader-配置数据
+    private Dictionary<int, ScannerShaderData> DicScannerShaderData = new Dictionary<int, ScannerShaderData>();
 
     /// <summary>
     /// 总步骤数
@@ -44,6 +47,7 @@ public class CfgManager : Singleton<CfgManager>
         InitEffectShowPathCfg();
         InitTweenMoveCfg();
         InitTweenLookAtCfg();
+        InitScannerShaderCfg();
         InitCfgOther();
     }
 
@@ -121,7 +125,16 @@ public class CfgManager : Singleton<CfgManager>
             DicTweenLookAtData.Add(key, data);
         }
     }
-
+    //初始化《ScannerShader》配置数据
+    private void InitScannerShaderCfg()
+    {
+        Dictionary<int, CfgScannerShaderData> map = CfgUtility.GetInstance().CfgTab.TbScannerShader.DataMap;
+        foreach (var key in map.Keys)
+        {
+            ScannerShaderData data = new ScannerShaderData(key);
+            DicScannerShaderData.Add(key, data);
+        }
+    }
 
     #endregion
 
@@ -205,6 +218,19 @@ public class CfgManager : Singleton<CfgManager>
         }
         return data;
     }
+    /// <summary>
+    /// 获取数据类-ScannerShader
+    /// </summary>
+    /// <param name="id"></param>
+    public ScannerShaderData GetScannerShaderData(int id)
+    {
+        ScannerShaderData data = null;
+        if (!DicScannerShaderData.TryGetValue(id, out data))
+        {
+            Debug.LogError($"该id：{id} 对应的ScannerShaderData类数据为空，请检查");
+        }
+        return data;
+    }
 
 
     //获取表现类数据
@@ -224,6 +250,9 @@ public class CfgManager : Singleton<CfgManager>
                 break;
             case StepShowType.TweenLookAt:
                 data = GetTweenLookAtData(id);
+                break;
+            case StepShowType.ScannerShader:
+                data = GetScannerShaderData(id);
                 break;
         }
         return data;

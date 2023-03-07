@@ -74,8 +74,20 @@
     "id": 302,
     "desc": "移动到某一点——302",
     "prepositionStepIdList": [],
-    "nextStepIdList": [],
+    "nextStepIdList": [
+      303
+    ],
     "triggerType": 4,
+    "triggerId": 1
+  },
+  {
+    "id": 303,
+    "desc": "设置目标着色器",
+    "prepositionStepIdList": [
+      302
+    ],
+    "nextStepIdList": [],
+    "triggerType": 5,
     "triggerId": 1
   }
 ]
