@@ -19,5 +19,7 @@ public enum EventType{
     StopTweenLookAt,
     //停止-ScannerShader着色器
     StopScannerShader,
+    //停止-物体高亮
+    StopHightHighlight,
 }
 

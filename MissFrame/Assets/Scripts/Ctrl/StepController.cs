@@ -10,9 +10,6 @@ public class StepController : SingletonMono<StepController>
 
     private Coroutine m_CorAutoNext;
 
-    //是否自动执行步骤
-    public bool IsAutoExcuteStep;
-
 
     private void Awake()
     {
@@ -39,19 +36,6 @@ public class StepController : SingletonMono<StepController>
         }
     }
 
-    //重置当前正在运行的步骤
-    public void ResetCurRunningStep()
-    {
-        if (m_CurStepData.IsNull())
-        {
-            Debug.Log("当前无操作步骤");
-            return;
-        }
-        m_CurStepData.Reset();
-        m_CurStepData = null;
-    }
-
-
     /// <summary>
     /// 自动执行步骤
     /// </summary>
@@ -60,13 +44,6 @@ public class StepController : SingletonMono<StepController>
         int allStepNum = CfgManager.GetInstance().AllStepNum;
         stepId = stepId < 1 || stepId > allStepNum ? 1 : stepId;
         StartStep(stepId);
-
-        /*
-        ResetCurRunningStep();
-        StepData stepData = CfgManager.GetInstance() .GetStepData(stepId);
-        m_CurStepData = stepData;
-        stepData.Start();
-        */
     }
 
     //协程延迟执行下一个步骤
@@ -74,11 +51,6 @@ public class StepController : SingletonMono<StepController>
     {
         Debug.Log($"延迟几秒执行： {nextStepData.CfgStepData.Delay}");
         yield return new WaitForSeconds(nextStepData.CfgStepData.Delay);
-        /*
-        curStepData.Reset();
-        m_CurStepData = nextStepData;
-        nextStepData.Start();
-        */
         StartStep(nextStepData.CfgStepData.StepId);
 
     }
@@ -86,9 +58,9 @@ public class StepController : SingletonMono<StepController>
     //步骤完成监听
     private void OnFinishStepCallBack(params object[] objs)
     {
-        if (!IsAutoExcuteStep)
+        if (!Game.GetInstance().IsAutoExecute)
         {
-            LogUtilits.LogErrorFormat($"IsAutoExcuteStep： {IsAutoExcuteStep}");
+            LogUtilits.LogErrorFormat($"是否是步骤自动执行模式： {Game.GetInstance().IsAutoExecute}");
             return;
         }
         if (objs.ArrayIsNull())
@@ -114,7 +86,7 @@ public class StepController : SingletonMono<StepController>
         }
         else
         {
-            nextStepId = 1;
+            return;
         }
         //下一个步骤数据
         StepData nextStepData = CfgManager.GetInstance().GetStepData(nextStepId);

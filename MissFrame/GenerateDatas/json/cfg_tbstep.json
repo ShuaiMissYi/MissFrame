@@ -27,7 +27,8 @@
     "childStepIdList": [
       301,
       302,
-      303
+      303,
+      304
     ],
     "delay": 3,
     "isNeedReset": false

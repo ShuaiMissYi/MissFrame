@@ -51,6 +51,7 @@ public class ScannerShaderController : SingletonMono<ScannerShaderController>
             return;
         }
         scannerScript.m_IsExecute = true;
+        EventDispatcher.GetInstance().DispatchEvent(EventType.FinishSubStep,m_ScannerShaderData.SubStep);
     }
 
     private void OnStopScannerShaderCallBack(params object[] objs)

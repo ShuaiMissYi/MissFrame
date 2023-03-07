@@ -25,6 +25,9 @@ public class CfgManager : Singleton<CfgManager>
     private Dictionary<int, TweenLookAtData> DicTweenLookAtData = new Dictionary<int, TweenLookAtData>();
     //ScannerShader-配置数据
     private Dictionary<int, ScannerShaderData> DicScannerShaderData = new Dictionary<int, ScannerShaderData>();
+    //Highlight-配置数据
+    private Dictionary<int, HighlightData> DicHighlightData = new Dictionary<int, HighlightData>();
+
 
     /// <summary>
     /// 总步骤数
@@ -40,7 +43,6 @@ public class CfgManager : Singleton<CfgManager>
     #region 初始化配置的数据类
     private void InitAllCfgData()
     {
-        Debug.Log("初始化  InitAllCfgData");
         InitSubStepCfg();
         InitStepCfg();
         InitActiveCfg();
@@ -48,7 +50,9 @@ public class CfgManager : Singleton<CfgManager>
         InitTweenMoveCfg();
         InitTweenLookAtCfg();
         InitScannerShaderCfg();
+        InitHighlightCfg();
         InitCfgOther();
+        Debug.Log("初始化  InitAllCfgData");
     }
 
     //初始化配置相关
@@ -80,6 +84,11 @@ public class CfgManager : Singleton<CfgManager>
         foreach (var key in subStepMap.Keys)
         {
             SubStepData data = new SubStepData(key);
+            if (DicSubStepData.ContainsKey(key))
+            {
+                LogUtilits.LogErrorFormat($"存在相同的key ： {key}");
+                return;
+            }
             DicSubStepData.Add(key, data);
         }
     }
@@ -133,6 +142,16 @@ public class CfgManager : Singleton<CfgManager>
         {
             ScannerShaderData data = new ScannerShaderData(key);
             DicScannerShaderData.Add(key, data);
+        }
+    }
+    //初始化《HighlightData》配置数据
+    private void InitHighlightCfg()
+    {
+        Dictionary<int, CfgHighlightData> map = CfgUtility.GetInstance().CfgTab.TbHighlight.DataMap;
+        foreach (var key in map.Keys)
+        {
+            HighlightData data = new HighlightData(key);
+            DicHighlightData.Add(key, data);
         }
     }
 
@@ -231,6 +250,19 @@ public class CfgManager : Singleton<CfgManager>
         }
         return data;
     }
+    /// <summary>
+    /// 获取数据类-HighlightData
+    /// </summary>
+    /// <param name="id"></param>
+    public HighlightData GetHighlightData(int id)
+    {
+        HighlightData data = null;
+        if (!DicHighlightData.TryGetValue(id, out data))
+        {
+            Debug.LogError($"该id：{id} 对应的HighlightData类数据为空，请检查");
+        }
+        return data;
+    }
 
 
     //获取表现类数据
@@ -253,6 +285,9 @@ public class CfgManager : Singleton<CfgManager>
                 break;
             case StepShowType.ScannerShader:
                 data = GetScannerShaderData(id);
+                break;
+            case StepShowType.Highlight:
+                data = GetHighlightData(id);
                 break;
         }
         return data;

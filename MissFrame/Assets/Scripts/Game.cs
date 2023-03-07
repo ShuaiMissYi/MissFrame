@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class Game : MonoBehaviour
+public class Game : SingletonMono<Game>
 {
 
+    public bool IsAutoExecute = false;
 
 
     private void Awake()
@@ -11,6 +12,10 @@ public class Game : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        AutoExecuteStep();
+    }
 
     private void InitSingleton()
     {
@@ -28,26 +33,23 @@ public class Game : MonoBehaviour
         TweenLookAtController.GetInstance().Init();
         //ScannerShader
         ScannerShaderController.GetInstance().Init();
+        //Hightlight
+        HighlightController.GetInstance().Init();
 
     }
 
     public void ExecuteStep(int stepId)
     {
-        StepController.GetInstance().IsAutoExcuteStep = false;
         StepController.GetInstance().StartStep(stepId);
-        
-    }
-
-    public void ResetStep()
-    {
-        StepController.GetInstance().ResetCurRunningStep();
     }
 
     //自动执行步骤
     public void AutoExecuteStep(int stepId=0)
     {
-        StepController.GetInstance().IsAutoExcuteStep = true;
-        StepController.GetInstance().AutoExecuteStep(stepId);
+        if (IsAutoExecute)
+        {
+            StepController.GetInstance().AutoExecuteStep(stepId);
+        }
     }
 
 

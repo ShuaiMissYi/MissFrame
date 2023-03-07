@@ -31,6 +31,10 @@ namespace MissFrame.Trigger
         /// 扫描着色器设置
         /// </summary>
         ScannerShader = 5,
+        /// <summary>
+        /// 物体高亮
+        /// </summary>
+        Highlight = 6,
     }
 
 } 

@@ -21,6 +21,7 @@ public sealed partial class Tables
     public Cfg.TbTweenLookAt TbTweenLookAt {get; }
     public Cfg.TbTweenMove TbTweenMove {get; }
     public Cfg.TbScannerShader TbScannerShader {get; }
+    public Cfg.TbHighlight TbHighlight {get; }
     public Cfg.TbResPrefabAsset TbResPrefabAsset {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
@@ -40,6 +41,8 @@ public sealed partial class Tables
         tables.Add("Cfg.TbTweenMove", TbTweenMove);
         TbScannerShader = new Cfg.TbScannerShader(loader("cfg_tbscannershader")); 
         tables.Add("Cfg.TbScannerShader", TbScannerShader);
+        TbHighlight = new Cfg.TbHighlight(loader("cfg_tbhighlight")); 
+        tables.Add("Cfg.TbHighlight", TbHighlight);
         TbResPrefabAsset = new Cfg.TbResPrefabAsset(loader("cfg_tbresprefabasset")); 
         tables.Add("Cfg.TbResPrefabAsset", TbResPrefabAsset);
         PostInit();
@@ -51,6 +54,7 @@ public sealed partial class Tables
         TbTweenLookAt.Resolve(tables); 
         TbTweenMove.Resolve(tables); 
         TbScannerShader.Resolve(tables); 
+        TbHighlight.Resolve(tables); 
         TbResPrefabAsset.Resolve(tables); 
         PostResolve();
     }
@@ -64,6 +68,7 @@ public sealed partial class Tables
         TbTweenLookAt.TranslateText(translator); 
         TbTweenMove.TranslateText(translator); 
         TbScannerShader.TranslateText(translator); 
+        TbHighlight.TranslateText(translator); 
         TbResPrefabAsset.TranslateText(translator); 
     }
     
