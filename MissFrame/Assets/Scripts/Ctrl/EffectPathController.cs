@@ -9,16 +9,7 @@ public class EffectPathController : SingletonMono<EffectPathController>
     private int m_CreatEffectNum = 0;
     private EffectData m_EffectData;
 
-    private List<PoolEntity> PoolEntityList = new List<PoolEntity>();
-    //key：轨迹id    value：资源数据类列表
-    private Dictionary<int,List<PoolEntity>> DicPoolEntity = new Dictionary<int, List<PoolEntity>>();
-
-    //key：轨迹id  value：子步骤轨迹协程-每个飞行点之间的间隔时间
-    private Dictionary<int,Coroutine> DicCorEffectFly = new Dictionary<int,Coroutine>();
-    //key：轨迹id  value：子步骤协程-播放一圈需要的时长
-    private Dictionary<int, Coroutine> DicCorDelayOnEnd = new Dictionary<int, Coroutine>();
-
-    private List<Tween> tweenList = new List<Tween>();
+    private Dictionary<int,CacheEffectData> DicCacheEffectData = new Dictionary<int,CacheEffectData>();
 
     public override void Init()
     {
@@ -38,54 +29,48 @@ public class EffectPathController : SingletonMono<EffectPathController>
         {
             return;
         }
-        m_EffectData = objs[0]as EffectData;
+        m_EffectData = objs[0] as EffectData;
         m_CreatEffectNum = m_EffectData.CfgShowEffectPathData.CreatNum;
         CreatEffect();
     }
 
     private void CreatEffect()
     {
+        int subStepId = m_EffectData.SubStep.CfgSubStepData.Id;
+        CacheEffectData cacheData = new CacheEffectData(subStepId);
+        if (DicCacheEffectData.ContainsKey(subStepId))
+        {
+            LogUtilits.LogErrorFormat($"id重复，请检查：{subStepId}");
+            return;
+        }
+        DicCacheEffectData.Add(subStepId, cacheData); 
         int index = 0;
         Debug.LogFormat("开始生成entity");
-        int effectId = m_EffectData.CfgShowEffectPathData.Id;
         int resId = m_EffectData.CfgShowEffectPathData.EffectResID;
-        List<PoolEntity> entityList = null;
-        DicPoolEntity.TryGetValue(effectId, out entityList);
-        if (entityList.ListIsNull())
+        for (int i = 0; i < m_CreatEffectNum; i++)
         {
-            entityList = new List<PoolEntity>();
-            DicPoolEntity[effectId] = entityList;
-        }
-        if (entityList.Count < m_CreatEffectNum)
-        {
-            m_CreatEffectNum = m_CreatEffectNum - DicPoolEntity[effectId].Count;
-            for (int i = 0; i < m_CreatEffectNum; i++)
+            ObjectPoolManager.GetInstance().GetObjectFormPoolAsyncByResId(resId, (entity) =>
             {
-                ObjectPoolManager.GetInstance().GetObjectFormPoolAsyncByResId(resId, (entity) =>
+                index++;
+                entity.gameObject.SetActive(true);
+                cacheData.AddPoolEntity(entity);
+                if (index == m_CreatEffectNum)
                 {
-                    index++;
-                    entity.gameObject.SetActive(true);
-                    entityList.Add(entity);
-                    if (index == m_CreatEffectNum)
-                    {
-                        CreatEndEffectObj();
-                    }
-                });
-            }
+                    CreatEndEffectObj();
+                }
+            });
         }
-        else
-        {
-            CreatEndEffectObj();
-        }
-        
     }
     //生成特效对象后调用
     private void CreatEndEffectObj()
     {
         //生成完毕，开始播放轨迹特效
-        int effectId = m_EffectData.CfgShowEffectPathData.Id;
-        DicCorEffectFly[effectId] = StartCoroutine(IE_EffectFly());
-        DicCorDelayOnEnd[effectId] = StartCoroutine(IE_DelayEndAction());
+        int subStepId = m_EffectData.SubStep.CfgSubStepData.Id;
+        CacheEffectData effectData = DicCacheEffectData[subStepId];
+        Coroutine cor1 = StartCoroutine(IE_EffectFly());
+        Coroutine cor2 = StartCoroutine(IE_DelayEndAction());
+        effectData.SetCorEffectFly(cor1);
+        effectData.SetCorDelayOnEnd(cor2);
     }
 
     private IEnumerator IE_DelayEndAction()
@@ -98,8 +83,9 @@ public class EffectPathController : SingletonMono<EffectPathController>
     private IEnumerator IE_EffectFly()
     {
         Debug.LogFormat("开始协程---特效轨迹");
-        int effectResId = m_EffectData.CfgShowEffectPathData.EffectResID;
-        List<PoolEntity> entityList = DicPoolEntity[effectResId];
+        int subStepId = m_EffectData.SubStep.CfgSubStepData.Id;
+        CacheEffectData cacheData = DicCacheEffectData[subStepId];
+        List<PoolEntity> entityList = cacheData.EntityList;
         for (int i = 0; i < m_CreatEffectNum; i++)
         {
             TargetFly(entityList[i],i);
@@ -114,34 +100,32 @@ public class EffectPathController : SingletonMono<EffectPathController>
             .SetOptions(false)
             .SetLookAt(0.001f);
         t.SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
-        tweenList.Add(t);
+        int subStepId = m_EffectData.SubStep.CfgSubStepData.Id;
+        CacheEffectData effectData = DicCacheEffectData[subStepId];
+        effectData.AddTween(t);
     }
 
     private void OnStopExecuteEffectPathCallBack(params object[] objs)
     {
-        if (null == m_EffectData)
-        {
-            return;
-        }
-        if (objs.ArrayIsNull())
+        if (objs.ArrayIsNull(true))
         {
             return;
         }
         EffectData data = objs[0]as EffectData;
-        if (data.CfgShowEffectPathData.Id == m_EffectData.CfgShowEffectPathData.Id)
+        int subStepId = data.SubStep.CfgSubStepData.Id;
+        CacheEffectData cacheData = null;
+        if (!DicCacheEffectData.TryGetValue(subStepId,out cacheData))
         {
-            StopShowEffectPath();
+            LogUtilits.LogErrorFormat($"该子步骤Id的缓存数据为空，请检查！id:{subStepId}");
+            return;
         }
+        StopShowEffectPath(cacheData);
     }
 
     //停止-特效协程
-    private void StopIE_EffectFly()
+    private void StopIE_EffectFly(CacheEffectData cacheData)
     {
-        if (null == m_EffectData)
-        {
-            return;
-        }
-        Coroutine cor = DicCorEffectFly[m_EffectData.CfgShowEffectPathData.Id];
+        Coroutine cor = cacheData.CorEffectFly;
         if (null == cor)
         {
             return;
@@ -150,13 +134,9 @@ public class EffectPathController : SingletonMono<EffectPathController>
         cor = null;
     }
     //停止-步骤结束协程
-    private void StopIE_DelayOnEnd()
+    private void StopIE_DelayOnEnd(CacheEffectData cacheData)
     {
-        if (null == m_EffectData)
-        {
-            return;
-        }
-        Coroutine cor = DicCorDelayOnEnd[m_EffectData.CfgShowEffectPathData.Id];
+        Coroutine cor = cacheData.CorDelayOnEnd;
         if (null == cor)
         {
             return;
@@ -167,34 +147,36 @@ public class EffectPathController : SingletonMono<EffectPathController>
 
 
     //停止展示特效路径显示
-    private void StopShowEffectPath()
+    private void StopShowEffectPath(CacheEffectData cacheData)
     {
         //停止-特效协程
-        StopIE_EffectFly();
+        StopIE_EffectFly(cacheData);
         //停止-步骤结束协程
-        StopIE_DelayOnEnd();
+        StopIE_DelayOnEnd(cacheData);
         //停止tween
-        ClearTween();
+        ClearTween(cacheData);
         //回收entity对象
-        ClearEntity();
+        ClearEntity(cacheData);
     }
     //回收entity
-    private void ClearEntity()
+    private void ClearEntity(CacheEffectData cacheData)
     {
-        foreach (PoolEntity item in PoolEntityList)
+        List<PoolEntity> entityList = cacheData.EntityList;
+        foreach (var item in entityList)
         {
             item.Recycle();
         }
-        PoolEntityList.Clear();
+        entityList.Clear();
     }
     //终止tween
-    private void ClearTween()
+    private void ClearTween(CacheEffectData cacheData)
     {
-        foreach (var item in tweenList)
+        List<Tween> twList = cacheData.TweenList;
+        foreach (Tween t in twList) 
         {
-            item.Kill();
+            t.Kill();
         }
-        tweenList.Clear();
+        twList.Clear();
     }
 
 

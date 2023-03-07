@@ -296,5 +296,4 @@ public class CfgManager : Singleton<CfgManager>
     #endregion
 
 
-
 }

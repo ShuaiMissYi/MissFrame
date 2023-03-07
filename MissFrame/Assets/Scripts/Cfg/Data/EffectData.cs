@@ -1,8 +1,6 @@
-using DG.Tweening;
 using MissFrame.Cfg;
 using MissFrame.Trigger;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 //显示隐藏-数据类
 public class EffectData : ExpressionBase
@@ -16,7 +14,6 @@ public class EffectData : ExpressionBase
         
     }
 
-    //使用该类时，重置一次，以免场景对象丢失
     public override void InitCfgData()
     {
         InitCfgData(m_ShowId);

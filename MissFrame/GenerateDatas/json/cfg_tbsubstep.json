@@ -44,7 +44,10 @@
     ],
     "triggerType": 2,
     "triggerId": 2,
-    "resetSubStepId": []
+    "resetSubStepId": [
+      101,
+      102
+    ]
   },
   {
     "id": 202,

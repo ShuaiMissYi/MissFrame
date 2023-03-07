@@ -68,13 +68,19 @@ public class SubStepData
         else
         {
             //EventDispatcher.GetInstance().DispatchEvent();
-            ExpressionBase data = CfgManager.GetInstance().GetExpressInfo (m_CfgSubStepData.TriggerType, m_CfgSubStepData.TriggerId);
+            ExpressionBase data = GetExpressData();
             if (null!=data)
             {
                 m_IsRuning = true;
                 data.Run(this);
             }
         }
+    }
+    //获取表现类
+    public ExpressionBase GetExpressData()
+    {
+        ExpressionBase data = CfgManager.GetInstance().GetExpressInfo(m_CfgSubStepData.TriggerType, m_CfgSubStepData.TriggerId);
+        return data;
     }
 
 
@@ -132,7 +138,7 @@ public class SubStepData
     //重置子步骤
     public void ResetSubStep()
     {
-        //重置子步骤对象：表现、成状态
+        //重置子步骤对象：表现、完成状态
         if (IsRuning)
         {
             //如果正在运行，则重置

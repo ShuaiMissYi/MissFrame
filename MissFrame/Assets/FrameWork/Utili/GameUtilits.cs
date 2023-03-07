@@ -45,4 +45,32 @@ public static class GameUtilits
         return false;
     }
 
+    /// <summary>
+    /// 查找游戏对象
+    /// </summary>
+    /// <param name="rootName">根节点名称</param>
+    /// <param name="relativePath">相对路径</param>
+    /// <returns></returns>
+    public static GameObject FindGameObj(string rootName,string relativePath)
+    {
+        if (string.IsNullOrEmpty(rootName)||string.IsNullOrEmpty(relativePath))
+        {
+            LogUtilits.LogErrorFormat("rootName 或  relativePath 为空");
+            return null;
+        }
+        GameObject root = GameObject.Find(rootName);
+        if (root.IsNull(true))
+        {
+            return null;
+        }
+        GameObject target = root.transform.Find(relativePath).gameObject;
+        if (target.IsNull(true))
+        {
+            return null;
+        }
+        return target;
+    }
+
+
+
 }

@@ -26,6 +26,21 @@ public class ExpressionBase
     public virtual void Run(SubStepData data) 
     {
         m_SubStepData = data;
+        //判断是否有需要重置的步骤
+        ResetOtherSubStep();
+    }
+
+    //重置其他子步骤数据
+    private void ResetOtherSubStep()
+    {
+        List<int> resetIdList = m_SubStepData.CfgSubStepData.ResetSubStepId;
+        foreach (int id in resetIdList)
+        {
+            LogUtilits.LogFormat($"重置其他步骤数据：id：{id}");
+            SubStepData subStepData = CfgManager.GetInstance().GetSubStepData(id);
+            ExpressionBase baseData = subStepData.GetExpressData();
+            baseData.Reset();
+        }
     }
 
     //重置表现效果
