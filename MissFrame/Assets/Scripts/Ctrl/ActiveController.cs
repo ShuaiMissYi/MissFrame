@@ -73,6 +73,7 @@ public class ActiveController : SingletonMono<ActiveController>
             return;
         }
         target.SetActive(!m_ActiveData.CfgActiveData.IsActive);
+        DicCacheActiveData.Remove(caCheData.SubStepId);
     }
 
 

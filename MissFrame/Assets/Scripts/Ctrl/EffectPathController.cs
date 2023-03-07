@@ -157,6 +157,9 @@ public class EffectPathController : SingletonMono<EffectPathController>
         ClearTween(cacheData);
         //回收entity对象
         ClearEntity(cacheData);
+        //移除该缓存对象
+        DicCacheEffectData.Remove(cacheData.SubStepId);
+
     }
     //回收entity
     private void ClearEntity(CacheEffectData cacheData)
